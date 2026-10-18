@@ -1,0 +1,449 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#17365d">
+  <title>ZIET Mumbai | Alternate CPD Certificate Generator</title>
+
+  <style>
+    :root {
+      --navy: #17365d;
+      --blue: #245a91;
+      --gold: #c79b35;
+      --bg: #f3f6fa;
+      --border: #d7e0eb;
+      --text: #233247;
+      --muted: #62748a;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      color: white;
+      background: linear-gradient(120deg, #142b49, #245a91);
+      padding: 25px 18px;
+      border-bottom: 5px solid var(--gold);
+    }
+
+    .header-inner, main, footer {
+      max-width: 1050px;
+      margin: auto;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: .9;
+    }
+
+    h1 {
+      margin: 7px 0;
+      font-size: clamp(23px, 4vw, 34px);
+      line-height: 1.2;
+    }
+
+    .subtitle { margin: 8px 0 0; }
+
+    main { padding: 24px 16px 36px; }
+
+    .notice {
+      background: #fff8e7;
+      border: 1px solid #ecd69c;
+      border-radius: 9px;
+      padding: 13px 15px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 12px rgba(23, 54, 93, .05);
+    }
+
+    .section-title {
+      font-size: 19px;
+      color: var(--navy);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+      margin: 0 0 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field { min-width: 0; }
+    .full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 650;
+      margin-bottom: 6px;
+    }
+
+    input, textarea, select {
+      display: block;
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #c8d3e0;
+      border-radius: 7px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+    }
+
+    textarea {
+      min-height: 82px;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: 2px solid #9ec6ed;
+      border-color: var(--blue);
+    }
+
+    .hint {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    button, .link-button {
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font: inherit;
+      font-weight: 650;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .primary { background: var(--navy); color: white; }
+    .primary:hover { background: var(--blue); }
+    .secondary {
+      color: var(--navy);
+      background: #e8eef6;
+      border: 1px solid #d1dce9;
+    }
+
+    button:disabled { opacity: .55; cursor: wait; }
+
+    #status {
+      display: none;
+      margin-top: 18px;
+      padding: 13px 15px;
+      border-radius: 8px;
+      overflow-wrap: anywhere;
+    }
+
+    #status.info { display: block; background: #edf5ff; }
+    #status.success { display: block; background: #e8f7ed; color: #14532d; }
+    #status.error { display: block; background: #fff0f0; color: #8b1e1e; }
+
+    .drive-link {
+      color: var(--blue);
+      font-weight: 650;
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      padding: 0 16px 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 650px) {
+      .grid { grid-template-columns: 1fr; }
+      .full { grid-column: auto; }
+      .card { padding: 16px; }
+      .actions button, .actions a { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="header-inner">
+    <div class="eyebrow">Kendriya Vidyalaya Sangathan</div>
+    <h1>Alternate CPD Certificate Generator</h1>
+    <div class="subtitle">
+      आंचलिक शिक्षा एवं प्रशिक्षण संस्थान, मुंबई<br>
+      Zonal Institute of Education & Training, Mumbai
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="notice">
+    <strong>Independent alternate application:</strong>
+    This frontend is separate from the existing certificate generator.
+    It is intended to create a separate PDF without replacing the original certificate.
+  </div>
+
+  <form id="certificateForm">
+    <section class="card">
+      <h2 class="section-title">1. Participant Details</h2>
+
+      <div class="grid">
+        <div class="field full">
+          <label for="participantName">Full Name (as it should appear on the certificate) *</label>
+          <input id="participantName" name="participantName"
+                 autocomplete="name" required
+                 placeholder="Enter participant's full name">
+        </div>
+
+        <div class="field">
+          <label for="designation">Designation *</label>
+          <input id="designation" name="designation" required
+                 placeholder="e.g. PRT Music">
+        </div>
+
+        <div class="field">
+          <label for="vidyalaya">Name of Vidyalaya *</label>
+          <input id="vidyalaya" name="vidyalaya" required
+                 placeholder="Enter Kendriya Vidyalaya name">
+        </div>
+
+        <div class="field">
+          <label for="region">KVS Region *</label>
+          <input id="region" name="region" required
+                 placeholder="e.g. Jaipur Region">
+        </div>
+
+        <div class="field">
+          <label for="certificateDate">Certificate Date *</label>
+          <input id="certificateDate" name="certificateDate"
+                 type="date" value="2026-10-01" required>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">2. Workshop Details</h2>
+
+      <div class="grid">
+        <div class="field full">
+          <label for="workshopTitle">Workshop Title (English) *</label>
+          <textarea id="workshopTitle" name="workshopTitle" required>Rhythm, Raga and Reflection: Reimagining Music Education with Bansuri for Socio-Emotional Growth and Values</textarea>
+        </div>
+
+        <div class="field full">
+          <label for="workshopTitleHindi">Workshop Title (Hindi, if applicable)</label>
+          <textarea id="workshopTitleHindi" name="workshopTitleHindi"
+                    placeholder="Enter the approved Hindi title, if required"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="startDate">Workshop Start Date *</label>
+          <input id="startDate" name="startDate" type="date"
+                 value="2026-09-27" required>
+        </div>
+
+        <div class="field">
+          <label for="endDate">Workshop End Date *</label>
+          <input id="endDate" name="endDate" type="date"
+                 value="2026-10-01" required>
+        </div>
+
+        <div class="field full">
+          <label for="venue">Venue / Institution *</label>
+          <input id="venue" name="venue" required
+                 value="ZIET Mumbai">
+        </div>
+
+        <div class="field">
+          <label for="directorName">Director / Signing Authority *</label>
+          <input id="directorName" name="directorName" required
+                 value="T. Prabhudas">
+        </div>
+
+        <div class="field">
+          <label for="certificateType">Certificate Version</label>
+          <select id="certificateType" name="certificateType">
+            <option value="alternate">Alternate PDF</option>
+          </select>
+          <span class="hint">The original certificate is not modified by this form.</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="generateButton" type="submit">
+          Generate Alternate PDF
+        </button>
+        <button class="secondary" type="reset">Reset Form</button>
+        <a class="link-button secondary"
+           href="https://drive.google.com/drive/folders/1Vm3iCXPvjBA0jviR0WJSi_yXhXpySGvd?usp=sharing"
+           target="_blank" rel="noopener noreferrer">
+          Open Destination Drive Folder
+        </a>
+      </div>
+
+      <div id="status" role="status" aria-live="polite"></div>
+    </section>
+  </form>
+</main>
+
+<footer>
+  ZIET Mumbai · Alternate CPD Certificate PDF Application<br>
+  This independent frontend does not replace or modify the existing certificate system.
+</footer>
+
+<script>
+  /*
+   * IMPORTANT:
+   * After creating and deploying the NEW Google Apps Script project,
+   * paste its /exec URL below.
+   *
+   * Do not use an existing application's URL unless its backend has
+   * specifically been built to accept this form's request.
+   */
+  const APPS_SCRIPT_URL = "PASTE_YOUR_NEW_APPS_SCRIPT_WEB_APP_EXEC_URL_HERE";
+
+  const form = document.getElementById("certificateForm");
+  const button = document.getElementById("generateButton");
+  const statusBox = document.getElementById("status");
+
+  function showStatus(message, type) {
+    statusBox.className = type;
+    statusBox.replaceChildren();
+    statusBox.appendChild(document.createTextNode(message));
+  }
+
+  function getFormData() {
+    const data = {};
+    new FormData(form).forEach((value, key) => {
+      data[key] = String(value).trim();
+    });
+    return data;
+  }
+
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    if (!form.reportValidity()) return;
+
+    if (
+      !APPS_SCRIPT_URL.startsWith("https://script.google.com/macros/s/") ||
+      APPS_SCRIPT_URL.includes("PASTE_YOUR_")
+    ) {
+      showStatus(
+        "Setup required: replace APPS_SCRIPT_URL in index.html with the NEW Apps Script web app URL ending in /exec, then commit the file.",
+        "error"
+      );
+      return;
+    }
+
+    const data = getFormData();
+
+    if (data.endDate < data.startDate) {
+      showStatus("The workshop end date cannot be earlier than its start date.", "error");
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Generating PDF…";
+    showStatus(
+      "Sending the details to the alternate certificate service. Please wait…",
+      "info"
+    );
+
+    try {
+      /*
+       * The backend must implement this JSON request/response contract.
+       * It should return JSON containing success, fileName, and fileUrl.
+       */
+      const response = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify({
+          action: "generateAlternateCertificate",
+          formData: data
+        }),
+        redirect: "follow"
+      });
+
+      if (!response.ok) {
+        throw new Error("The certificate service returned HTTP " + response.status);
+      }
+
+      const result = await response.json();
+
+      if (!result || result.success !== true) {
+        throw new Error(
+          result && result.message
+            ? result.message
+            : "The service did not confirm successful PDF generation."
+        );
+      }
+
+      showStatus(
+        "Alternate PDF created successfully: " +
+        (result.fileName || "Certificate PDF") +
+        (result.fileUrl ? " — " + result.fileUrl : ""),
+        "success"
+      );
+
+      if (result.fileUrl) {
+        const link = document.createElement("a");
+        link.href = result.fileUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.className = "drive-link";
+        link.textContent = "Open generated PDF";
+        statusBox.appendChild(document.createElement("br"));
+        statusBox.appendChild(link);
+      }
+    } catch (error) {
+      showStatus(
+        "Could not confirm PDF generation. " +
+        (error && error.message ? error.message : "Please try again.") +
+        " Check the new Apps Script deployment and its response format.",
+        "error"
+      );
+    } finally {
+      button.disabled = false;
+      button.textContent = "Generate Alternate PDF";
+    }
+  });
+
+  form.addEventListener("reset", function () {
+    statusBox.className = "";
+    statusBox.textContent = "";
+  });
+</script>
+</body>
+</html>

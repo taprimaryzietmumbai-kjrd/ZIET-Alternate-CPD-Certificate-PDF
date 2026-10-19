@@ -101,7 +101,7 @@ footer{text-align:center;padding:0 16px 20px;color:#6b625a;font-size:12px}
   'use strict';
   const W = 1170, H = 827, EXPORT_SCALE = 2;
   const template = new Image();
-  template.src = './refined-template.png?v=3';
+  template.src = './refined-template.png?v=4';
   const preview = document.getElementById('preview');
   const pctx = preview.getContext('2d');
   const $ = id => document.getElementById(id);
@@ -231,7 +231,7 @@ footer{text-align:center;padding:0 16px 20px;color:#6b625a;font-size:12px}
     ctx.save();
     ctx.scale(scale, scale);
 
-    drawDivider(ctx, 518);
+    // Divider is already part of the refined background template; avoid double-drawing it.
 
     // Hindi particulars: dark-brown body text with warm-brown emphasis.
     drawParticulars(ctx, $('hindi').value, {x: 64, y: 369, w: 1042, h: 140}, {
@@ -255,7 +255,7 @@ footer{text-align:center;padding:0 16px 20px;color:#6b625a;font-size:12px}
         fontSize -= 0.25;
       } while (fontSize > 6.2);
       ctx.fillStyle = COLORS.emphasis;
-      ctx.fillText(certNo, 164, 721);
+      ctx.fillText(certNo, 164, 744);
     }
 
     // Calendar date beside the preprinted bilingual issue-date label.
@@ -265,7 +265,7 @@ footer{text-align:center;padding:0 16px 20px;color:#6b625a;font-size:12px}
       ctx.textBaseline = 'alphabetic';
       ctx.font = '700 10px ' + EN_FONT;
       ctx.fillStyle = COLORS.emphasis;
-      ctx.fillText(date, 260, 749);
+      ctx.fillText(date, 260, 761);
     }
 
     ctx.restore();

@@ -329,7 +329,14 @@ footer{text-align:center;padding:0 16px 20px;color:#6b625a;font-size:12px}
     refreshPreview();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(refreshPreview);
   };
-  template.onerror = () => showStatus('Could not load refined-template.png. Make sure it is uploaded beside index.html in the same repository folder.', 'error');
+  template.onerror = () => {
+    // Keep the app usable with the previous background until the new v4 PNG is uploaded.
+    if (!template.src.includes('fallback=1')) {
+      template.src = './refined-template.png?fallback=1';
+    } else {
+      showStatus('Could not load the certificate background. Confirm that refined-template.png is uploaded beside index.html.', 'error');
+    }
+  };
   if (template.complete && template.naturalWidth) refreshPreview();
 })();
 </script>

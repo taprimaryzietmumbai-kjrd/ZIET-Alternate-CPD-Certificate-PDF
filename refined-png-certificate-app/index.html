@@ -40,7 +40,7 @@ button:hover{filter:brightness(1.06)}button:active{transform:translateY(1px)}
 .preview-panel .panel-body{padding:13px;background:#f8f5ef}
 .preview-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 2px 12px;color:#5e5147;font-size:12px}
 .canvas-wrap{background:#fff;border:1px solid #d6c9b6;box-shadow:0 4px 14px #30201414;line-height:0}
-canvas{display:block;width:100%;height:auto;aspect-ratio:1170/827}
+canvas{display:block;width:100%;height:auto;aspect-ratio:1491/1055}
 .preview-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
 .preview-actions button{padding:9px 12px}
 footer{text-align:center;padding:0 16px 20px;color:#6b625a;font-size:12px}
@@ -101,7 +101,7 @@ footer{text-align:center;padding:0 16px 20px;color:#6b625a;font-size:12px}
   'use strict';
   const W = 1170, H = 827, EXPORT_SCALE = 2;
   const template = new Image();
-  template.src = './refined-template.png';
+  template.src = './refined-template.png?v=2';
   const preview = document.getElementById('preview');
   const pctx = preview.getContext('2d');
   const $ = id => document.getElementById(id);
@@ -210,39 +210,65 @@ footer{text-align:center;padding:0 16px 20px;color:#6b625a;font-size:12px}
     return m ? `${m[3]}.${m[2]}.${m[1]}` : value;
   }
 
-  function drawCertificate(ctx, scale) {
+  function drawDivider(ctx, y) {
     ctx.save();
-    ctx.setTransform(scale, 0, 0, scale, 0, 0);
-    ctx.clearRect(0,0,W,H);
-    ctx.drawImage(template,0,0,W,H);
-    // Hindi particulars: dark brown, matching the locked visual specification.
-    drawParticulars(ctx, $('hindi').value, {x:61,y:307,w:1046,h:172}, {
-      family:HI_FONT, startSize:24, minSize:17, lineRatio:1.42, color:COLORS.body
+    ctx.strokeStyle = '#c58a23';
+    ctx.fillStyle = '#c58a23';
+    ctx.lineWidth = 1.15;
+    ctx.beginPath();
+    ctx.moveTo(320, y); ctx.lineTo(555, y);
+    ctx.moveTo(615, y); ctx.lineTo(850, y);
+    ctx.stroke();
+    ctx.translate(585, y);
+    ctx.rotate(Math.PI / 4);
+    ctx.fillRect(-3.1, -3.1, 6.2, 6.2);
+    ctx.restore();
+  }
+
+  function drawCertificate(ctx, scale) {
+    ctx.clearRect(0, 0, W * scale, H * scale);
+    ctx.drawImage(template, 0, 0, W * scale, H * scale);
+    ctx.save();
+    ctx.scale(scale, scale);
+
+    // A fresh gold divider separates the two particulars blocks.
+    drawDivider(ctx, 518);
+
+    // Hindi particulars: dark brown body, with bold supplied text in warm brown.
+    drawParticulars(ctx, $('hindi').value, {x: 64, y: 369, w: 1042, h: 143}, {
+      family: HI_FONT, startSize: 20, minSize: 14, lineRatio: 1.30, color: COLORS.body
     });
-    // English particulars: dark brown body, navy quoted workshop title.
-    drawParticulars(ctx, $('english').value, {x:65,y:489,w:1040,h:144}, {
-      family:EN_FONT, startSize:20, minSize:15.5, lineRatio:1.36, color:'#302722'
+
+    // English particulars: the same certificate serif style; quoted workshop titles remain navy.
+    drawParticulars(ctx, $('english').value, {x: 64, y: 529, w: 1042, h: 135}, {
+      family: EN_FONT, startSize: 18, minSize: 13, lineRatio: 1.30, color: '#302722'
     });
-    // Certificate issue date in the existing top-right date position.
-    const date = dateDisplay($('issueDate').value);
-    if (date) {
-      ctx.textAlign='right'; ctx.textBaseline='alphabetic';
-      ctx.font='700 10.5px ' + EN_FONT; ctx.fillStyle=COLORS.emphasis;
-      ctx.fillText('Date: ' + date, 1104, 266);
-    }
-    // Certificate number in the locked template's lower-left number strip.
+
+    // Certificate number is entered on the line beneath its fixed label at lower left.
     const certNo = cleanText($('certNo').value);
     if (certNo) {
-      let fontSize = 9.2;
-      ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+      let fontSize = 9.4;
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'alphabetic';
       do {
-        ctx.font='700 ' + fontSize + 'px ' + EN_FONT;
-        if (ctx.measureText(certNo).width <= 535 || fontSize <= 6.6) break;
+        ctx.font = '700 ' + fontSize + 'px ' + EN_FONT;
+        if (ctx.measureText(certNo).width <= 330 || fontSize <= 6.2) break;
         fontSize -= 0.25;
-      } while (fontSize > 6.6);
-      ctx.fillStyle=COLORS.emphasis;
-      ctx.fillText(certNo, 64, 762);
+      } while (fontSize > 6.2);
+      ctx.fillStyle = COLORS.emphasis;
+      ctx.fillText(certNo, 164, 721);
     }
+
+    // Issue date sits beside the fixed bilingual Date label in the lower-left footer.
+    const date = dateDisplay($('issueDate').value);
+    if (date) {
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'alphabetic';
+      ctx.font = '700 10px ' + EN_FONT;
+      ctx.fillStyle = COLORS.emphasis;
+      ctx.fillText(date, 260, 749);
+    }
+
     ctx.restore();
   }
 

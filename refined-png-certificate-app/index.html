@@ -101,7 +101,7 @@ footer{text-align:center;padding:0 16px 20px;color:#6b625a;font-size:12px}
   'use strict';
   const W = 1170, H = 827, EXPORT_SCALE = 2;
   const template = new Image();
-  template.src = './refined-template.png?v=2';
+  template.src = './refined-template.png?v=3';
   const preview = document.getElementById('preview');
   const pctx = preview.getContext('2d');
   const $ = id => document.getElementById(id);
@@ -231,23 +231,22 @@ footer{text-align:center;padding:0 16px 20px;color:#6b625a;font-size:12px}
     ctx.save();
     ctx.scale(scale, scale);
 
-    // A fresh gold divider separates the two particulars blocks.
     drawDivider(ctx, 518);
 
-    // Hindi particulars: dark brown body, with bold supplied text in warm brown.
-    drawParticulars(ctx, $('hindi').value, {x: 64, y: 369, w: 1042, h: 143}, {
-      family: HI_FONT, startSize: 20, minSize: 14, lineRatio: 1.30, color: COLORS.body
+    // Hindi particulars: dark-brown body text with warm-brown emphasis.
+    drawParticulars(ctx, $('hindi').value, {x: 64, y: 369, w: 1042, h: 140}, {
+      family: HI_FONT, startSize: 19, minSize: 13.5, lineRatio: 1.28, color: COLORS.body
     });
 
-    // English particulars: the same certificate serif style; quoted workshop titles remain navy.
-    drawParticulars(ctx, $('english').value, {x: 64, y: 529, w: 1042, h: 135}, {
-      family: EN_FONT, startSize: 18, minSize: 13, lineRatio: 1.30, color: '#302722'
+    // English particulars: serif text; quoted workshop title remains navy.
+    drawParticulars(ctx, $('english').value, {x: 64, y: 525, w: 1042, h: 105}, {
+      family: EN_FONT, startSize: 17.5, minSize: 12.5, lineRatio: 1.28, color: '#302722'
     });
 
-    // Certificate number is entered on the line beneath its fixed label at lower left.
+    // Certificate number goes below its fixed bilingual label in the lower-left footer.
     const certNo = cleanText($('certNo').value);
     if (certNo) {
-      let fontSize = 9.4;
+      let fontSize = 9.2;
       ctx.textAlign = 'left';
       ctx.textBaseline = 'alphabetic';
       do {
@@ -259,7 +258,7 @@ footer{text-align:center;padding:0 16px 20px;color:#6b625a;font-size:12px}
       ctx.fillText(certNo, 164, 721);
     }
 
-    // Issue date sits beside the fixed bilingual Date label in the lower-left footer.
+    // Calendar date beside the preprinted bilingual issue-date label.
     const date = dateDisplay($('issueDate').value);
     if (date) {
       ctx.textAlign = 'left';
